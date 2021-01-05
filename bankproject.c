@@ -29,7 +29,7 @@ struct bankproject
     double  Adhar;
     struct date dob;
     float amount;
-    int Account_no;
+    double Account_no;
     char password[90];
     double cardNo;
     int pin;
@@ -44,14 +44,15 @@ struct bankproject
       char ch;
       char x[90];
       int i,d,z,p,b;
+	  int choice;
 
       FILE *fp;
       d=z=p=b=0;
       fp=fopen("bankData.txt","a+");
      creatAccount:
-     clrscr();
+     system("cls");
        printf("\nEnter Account No==>");
-       scanf("%d",&new.Account_no);
+       scanf("%lf",&new.Account_no);
 
 	    printf("\nEnter your name==>");
 	    scanf(" %s", new.name);
@@ -66,7 +67,7 @@ struct bankproject
 	    printf("Enter Amount to Add in Account==>");
 	    scanf("%f",&new.amount);
 	    retype:
-	    printf("\nPassword must be include special sym(!@#$^&*) one Number and both SMALL and capital Letters");
+	    printf("\nPassword must be include special sym(!@#$^&*) one Number and both SMALL and capital Letters\n");
 	    printf("Enter your password==>");
 	    scanf("%s",new.password);
 
@@ -103,30 +104,41 @@ struct bankproject
 	goto retype;
     }
 
-	   fprintf(fp,"\n%d \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password);
+	   fprintf(fp,"\n%lf \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password);
 	   fprintf(fp,"\n====================================================================================================================================================================\n");
 	   fclose(fp);
 	   printf("\nAccount Created Successfuly.............");
+	   printf("\nGoto Main menu press 1 for exit press 2");
+	   scanf("%d",&choice);
+	   if(choice==1)
+	   {
+		    main();
+	   }
+	   else 
+	   {
+		   exit(0);
+	   }
    }
 
    void AccountInfo()
    {
        char y[90];
        int no;
+	   int choice;
        FILE *read;
-       clrscr();
+       system("cls");
 
        read=fopen("bankData.txt","r");
 
        printf("Please Enter Your Password==>");
        scanf("%s",y);
 
-       while(fscanf(read,"%d %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
+       while(fscanf(read,"%lf %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
 	{
 	  no=strcmp(y,new.password);
 	  if(no==0)
 	  {
-	     printf("\nName: %s \nAccount No: %d \nBalance: %f",new.name,new.Account_no,new.amount);
+	     printf("\nName: %s \nAccount No: %lf \nBalance: %f",new.name,new.Account_no,new.amount);
 	     break;
 
 
@@ -139,6 +151,16 @@ struct bankproject
 	 }
        }
        fclose(read);
+	   printf("\nGoto Main menu press 1 for exit press 2");
+	   scanf("%d",&choice);
+	   if(choice==1)
+	   {
+		    main();
+	   }
+	   else 
+	   {
+		   exit(0);
+	   }
    }
 
  void AddCash()
@@ -146,9 +168,10 @@ struct bankproject
        char y[90];
        int no;
        int accNo;
+	   int choice;
        FILE *old;
        FILE *depos;
-       clrscr();
+       system("cls");
 
        old=fopen("bankData.txt","r");
        depos=fopen("addingAmountBankData.txt","w");
@@ -159,7 +182,7 @@ struct bankproject
        scanf("%s",y);
 
 
-       while(fscanf(old,"%d %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
+       while(fscanf(old,"%lf %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
 	{
 	  no=strcmp(y,new.password);
 	  if(no==0&&accNo==new.Account_no)
@@ -170,7 +193,7 @@ struct bankproject
 	     new.amount=add.amount+new.amount;
 	     printf("\nAmmount Added Successfuly......");
 	     printf("\nTotal Balance In Account now==>%f",new.amount);
-	      fprintf(depos,"\n%d \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password);
+	      fprintf(depos,"\n%lf \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password);
 	      fprintf(depos,"\n====================================================================================================================================================================\n");
 
 	     break;
@@ -189,6 +212,16 @@ struct bankproject
        fclose(depos);
        remove("bankData.txt");
        rename("addingAmountBankData.txt","bankData.txt");
+	   printf("\nGoto Main menu press 1 for exit press 2");
+	   scanf("%d",&choice);
+	   if(choice==1)
+	   {
+		    main();
+	   }
+	   else 
+	   {
+		   exit(0);
+	   }
  }
 
 void getCash()
@@ -196,9 +229,10 @@ void getCash()
     char y[90];
        int no;
        int accNo;
+	   int choice;
        FILE *old;
        FILE *with;
-       clrscr();
+       system("cls");
 
        old=fopen("bankData.txt","r");
        with=fopen("withdrawAmountBankData.txt","w");
@@ -209,7 +243,7 @@ void getCash()
        scanf("%s",y);
 
 
-       while(fscanf(old,"%d %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
+       while(fscanf(old,"%lf %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
 	{
 	  no=strcmp(y,new.password);
 	  if(no==0)
@@ -228,7 +262,7 @@ void getCash()
 	       new.amount=new.amount-withdraw.amount;
 	       printf("\nAmmount Withdraw Successfuly......");
 	       printf("\nTotal Balance In Account now==>%f",new.amount);
-	       fprintf(with,"\n%d \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password);
+	       fprintf(with,"\n%lf \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password);
 	       fprintf(with,"\n====================================================================================================================================================================\n");
 
 	     }
@@ -248,6 +282,16 @@ void getCash()
        fclose(with);
        remove("bankData.txt");
        rename("withdrawAmountBankData.txt","bankData.txt");
+	   printf("\nGoto Main menu press 1 for exit press 2");
+	   scanf("%d",&choice);
+	   if(choice==1)
+	   {
+		    main();
+	   }
+	   else 
+	   {
+		   exit(0);
+	   }
 }
 
 void AtmPin()
@@ -255,12 +299,13 @@ void AtmPin()
      char y[90];
      int fspin;
      int lspin;
+	 int choice;
 
        int no;
        int accNo;
        FILE *old;
        FILE *card;
-       clrscr();
+       system("cls");
 
        old=fopen("bankData.txt","r");
        card=fopen("ATMgenrate.txt","w");
@@ -271,7 +316,7 @@ void AtmPin()
        scanf("%s",y);
 
 
-       while(fscanf(old,"%d %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
+       while(fscanf(old,"%lf %s %d %lf %lf %d/%d/%d/ %f %s",&new.Account_no,new.name,&new.age,&new.mobile,&new.Adhar,&new.dob.day,&new.dob.month,&new.dob.year,&new.amount,new.password)!=EOF)
 	{
 	  no=strcmp(y,new.password);
 	  if(no==0)
@@ -294,7 +339,7 @@ void AtmPin()
 
 
 
-	       fprintf(card,"\n%d \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s \n%lf \n%d",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password,ATM.cardNo,ATM.pin);
+	       fprintf(card,"\n%lf \n%s \n%d \n%lf \n%lf \n%d/%d/%d/ \n%f \n%s \n%lf \n%d",new.Account_no,new.name,new.age,new.mobile,new.Adhar,new.dob.day,new.dob.month,new.dob.year,new.amount,new.password,ATM.cardNo,ATM.pin);
 	       fprintf(card,"\n====================================================================================================================================================================\n");
 
 
@@ -314,15 +359,25 @@ void AtmPin()
        fclose(card);
        remove("bankData.txt");
        rename("ATMgenrate.txt","bankData.txt");
+	   printf("\nGoto Main menu press 1 for exit press 2");
+	   scanf("%d",&choice);
+	   if(choice==1)
+	   {
+		   int main();
+	   }
+	   else 
+	   {
+		   exit(0);
+	   }
 
 }
 
 
 
-void main()
+int main()
 {
     int option;
-    clrscr();
+    system("cls");
     printf("\n\t\t\t\t\t\t\t\t\t\t\t CREATED BY :- BHUSHAN SHINDE");
     printf("\n\n******** BANK MANEGMENT SYSTEN *********");
 
